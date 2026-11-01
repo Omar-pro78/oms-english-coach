@@ -160,6 +160,9 @@
   .dialogue-branch { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; font-weight: 600; color: var(--ink); background: var(--accent-soft); }
   .dialogue-branch:hover { border-color: var(--accent); }
   .dialogue-step.dialogue-hidden { display: none; }
+  .dialogue-row-hidden { display: none !important; }
+  .dialogue-gate { border: 1px dashed var(--border); border-radius: 12px; background: var(--accent-soft); }
+  .dialogue-gate .row-text { width: 100%; }
   .mic-btn.listening { background: var(--good); color: #fff; border-color: var(--good); }
   .sr-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 10px; font-size: 13.5px; text-align: left; }
   .sr-feedback.ok { background: var(--good-soft); color: var(--good); }
@@ -6578,22 +6581,106 @@
   }
 
   // ---- dialogue guidé ----
+  // Révèle une branche (A/B) pas à pas : la 1re réplique "Toi" (déjà dite pour choisir
+  // la branche) et les répliques "Collègue" apparaissent tout de suite ; chaque réplique
+  // "Toi" suivante est cachée derrière une invite micro (répondre à voix haute) avant
+  // de s'afficher, au lieu de montrer tout l'échange d'un coup.
+  function dialogueRowTag(row) {
+    var t = row.querySelector('.tag');
+    return t ? t.textContent.trim() : '';
+  }
+  function clearDialogueGate(scn) {
+    var g = scn.querySelector('.dialogue-gate');
+    if (g) g.remove();
+  }
+  function revealDialogueStep(scn, stepName) {
+    scn.querySelectorAll('.dialogue-step').forEach(function(s) { s.classList.add('dialogue-hidden'); });
+    var step = scn.querySelector('[data-step="' + stepName + '"]');
+    if (!step) return;
+    step.classList.remove('dialogue-hidden');
+    clearDialogueGate(scn);
+    var rows = Array.prototype.slice.call(step.querySelectorAll('ul.rows > li.row'));
+    rows.forEach(function(r, i) {
+      if (i === 0) r.classList.remove('dialogue-row-hidden');
+      else r.classList.add('dialogue-row-hidden');
+    });
+    if (stepName === 'opener') return; // opener has no gated turns
+    advanceDialogueStep(scn, step, rows, 1);
+  }
+  function advanceDialogueStep(scn, step, rows, idx) {
+    clearDialogueGate(scn);
+    // les répliques "Collègue" s'affichent directement (rien à prononcer)
+    while (idx < rows.length && dialogueRowTag(rows[idx]) !== 'Toi') {
+      rows[idx].classList.remove('dialogue-row-hidden');
+      idx++;
+    }
+    if (idx >= rows.length) return; // tout l'échange est révélé
+    var targetRow = rows[idx];
+    var targetEnEl = targetRow.querySelector('.en');
+    var targetEn = targetEnEl ? targetEnEl.textContent : '';
+    var gate = document.createElement('li');
+    gate.className = 'dialogue-gate row';
+    gate.innerHTML = '<div class="row-text">' +
+      '<p class="sec-note" style="margin:0 0 8px;">👉 À toi de répondre à voix haute :</p>' +
+      '<div class="session-actions dialogue-mic-row">' +
+      '<button class="session-btn mic-btn dialogue-turn-mic">🎤 Répondre à voix haute</button>' +
+      '<button class="session-btn dialogue-turn-reveal">Voir la réponse</button>' +
+      '</div>' +
+      '<div class="dialogue-sr-feedback"></div></div>';
+    targetRow.parentNode.insertBefore(gate, targetRow);
+    function revealAndContinue() {
+      gate.remove();
+      targetRow.classList.remove('dialogue-row-hidden');
+      advanceDialogueStep(scn, step, rows, idx + 1);
+    }
+    var turnMicBtn = gate.querySelector('.dialogue-turn-mic');
+    var turnFb = gate.querySelector('.dialogue-sr-feedback');
+    if (!SR_AVAILABLE && turnMicBtn) turnMicBtn.style.display = 'none';
+    if (turnMicBtn) {
+      turnMicBtn.addEventListener('click', function() {
+        turnMicBtn.textContent = '🎙️ Écoute…';
+        turnMicBtn.classList.add('listening');
+        turnMicBtn.disabled = true;
+        listenOnce(function(transcript) {
+          turnMicBtn.textContent = '🎤 Répondre à voix haute';
+          turnMicBtn.classList.remove('listening');
+          turnMicBtn.disabled = false;
+          var sim = similarity(transcript, targetEn);
+          if (sim >= 0.4) {
+            turnFb.innerHTML = '<div class="sr-feedback ok">✅ Bien dit !<span class="heard">Entendu : "' + escHtmlClient(transcript) + '"</span></div>';
+            setTimeout(revealAndContinue, 500);
+          } else {
+            turnFb.innerHTML = '<div class="sr-feedback warn">🤔 Pas tout à fait reconnu.<span class="heard">Entendu : "' + escHtmlClient(transcript) + '"</span> Réessaie, ou clique "Voir la réponse".</div>';
+          }
+        }, function(err) {
+          turnMicBtn.textContent = '🎤 Répondre à voix haute';
+          turnMicBtn.classList.remove('listening');
+          turnMicBtn.disabled = false;
+          turnFb.innerHTML = '<div class="sr-feedback bad">⚠️ ' + srErrorMessage(err) + '</div>';
+        });
+      });
+    }
+    var revealBtn = gate.querySelector('.dialogue-turn-reveal');
+    if (revealBtn) revealBtn.addEventListener('click', revealAndContinue);
+  }
   document.querySelectorAll('.dialogue-branch').forEach(function(branchEl) {
     branchEl.addEventListener('click', function() {
       var scn = branchEl.closest('.dialogue-scn');
       if (!scn) return;
-      scn.querySelectorAll('.dialogue-step').forEach(function(s) { s.classList.add('dialogue-hidden'); });
-      var step = scn.querySelector('[data-step="' + branchEl.dataset.reveal + '"]');
-      if (step) step.classList.remove('dialogue-hidden');
+      revealDialogueStep(scn, branchEl.dataset.reveal);
     });
   });
   document.querySelectorAll('.dialogue-restart').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var scn = btn.closest('.dialogue-scn');
       if (!scn) return;
+      clearDialogueGate(scn);
+      scn.querySelectorAll('li.row.dialogue-row-hidden').forEach(function(r) { r.classList.remove('dialogue-row-hidden'); });
       scn.querySelectorAll('.dialogue-step').forEach(function(s) { s.classList.add('dialogue-hidden'); });
       var opener = scn.querySelector('[data-step="opener"]');
       if (opener) opener.classList.remove('dialogue-hidden');
+      var openerFb = scn.querySelector('[data-step="opener"] .dialogue-sr-feedback');
+      if (openerFb) openerFb.innerHTML = '';
     });
   });
 
@@ -6695,9 +6782,7 @@
         if (best >= 0.4) {
           var which = simA >= simB ? 'A' : 'B';
           if (fb) fb.innerHTML = '<div class="sr-feedback ok">✅ Ça correspond à une réponse valide !<span class="heard">Entendu : "' + escHtmlClient(transcript) + '"</span></div>';
-          scn.querySelectorAll('.dialogue-step').forEach(function(s) { s.classList.add('dialogue-hidden'); });
-          var step = scn.querySelector('[data-step="' + which + '"]');
-          if (step) step.classList.remove('dialogue-hidden');
+          revealDialogueStep(scn, which);
         } else {
           if (fb) fb.innerHTML = '<div class="sr-feedback warn">🤔 Pas sûr d\'avoir reconnu une réponse valide.<span class="heard">Entendu : "' + escHtmlClient(transcript) + '"</span> Réessaie, ou choisis une réponse ci-dessous.</div>';
         }
