@@ -190,6 +190,22 @@
     font-size: 12.5px; color: var(--muted); background: var(--bg); border: 1px solid var(--border);
     border-radius: 10px; padding: 10px 12px; line-height: 1.5;
   }
+
+  .dsco-step summary { cursor: pointer; font-size: 16.5px; font-weight: 600; list-style: none; margin: 0; }
+  .dsco-step summary::-webkit-details-marker { display: none; }
+  .dsco-step summary::before { content: '▸ '; color: var(--accent); }
+  .dsco-step[open] summary { margin-bottom: 10px; }
+  .dsco-step[open] summary::before { content: '▾ '; }
+  .dsco-turn { padding: 10px 0; border-top: 1px solid var(--border); }
+  .dsco-turn .tag { margin-bottom: 4px; }
+  .tag-us { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+  .dsco-qlist { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .dsco-qlist li { padding-left: 12px; border-left: 2px solid var(--accent-soft); }
+  .dsco-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+  .dsco-table th, .dsco-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .dsco-table th { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  .dsco-report { font-family: var(--mono); font-size: 12px; line-height: 1.7; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; white-space: pre-wrap; overflow-x: auto; }
+
   footer { max-width: 820px; margin: 8px auto 0; color: var(--muted); font-size: 12px; line-height: 1.6; padding: 0 20px 20px; }
 </style>
 
@@ -223,6 +239,7 @@
     <button class="tabbtn" data-tab="bank">Banque de phrases</button>
     <button class="tabbtn" data-tab="daily">Quotidien</button>
     <button class="tabbtn" data-tab="reunions">Réunions</button>
+    <button class="tabbtn" data-tab="dscocall">📞 Call DSCO</button>
     <button class="tabbtn" data-tab="pron">Prononciation</button>
   </nav>
   <p class="sync-status" id="syncStatus">☁️ Progression stockée sur cet appareil uniquement (non connecté).</p>
@@ -6096,6 +6113,412 @@
         </li>
       </ul>
     </div>
+
+  </section>
+
+  <section class="tabpanel" data-panel="dscocall" hidden>
+    <div class="card">
+      <h2 style="font-size:16.5px;margin:0 0 4px;">📞 Simulation du call &#x2014; Migration DSCO OAuth2</h2>
+      <p class="sec-note">Script complet de validation fonctionnelle end-to-end a utiliser pendant le call avec l&#x27;equipe US (passage Bearer &#x2192; OAuth2 client credentials sur Rithum/DSCO). Deplie/replie chaque etape au fil du call, et utilise les puces ci-dessous pour sauter directement a l&#x27;etape en cours.</p>
+    </div>
+
+    <div class="chiprow2">
+<a class="chip" data-scroll="dsco-e1">Etape 1</a>
+<a class="chip" data-scroll="dsco-e2">Etape 2</a>
+<a class="chip" data-scroll="dsco-e3">Etape 3</a>
+<a class="chip" data-scroll="dsco-e4">Etape 4</a>
+<a class="chip" data-scroll="dsco-e5">Etape 5</a>
+<a class="chip" data-scroll="dsco-e6">Etape 6</a>
+<a class="chip" data-scroll="dsco-e7">Etape 7</a>
+<a class="chip" data-scroll="dsco-e8">Etape 8</a>
+<a class="chip" data-scroll="dsco-anomalies">Anomalies</a>
+<a class="chip" data-scroll="dsco-exemple">Exemple d&#x27;echange</a>
+<a class="chip" data-scroll="dsco-script">Script Taskforce</a>
+<a class="chip" data-scroll="dsco-pilotage">Piloter la reunion</a>
+<a class="chip" data-scroll="dsco-report">Compte-rendu final</a>
+    </div>
+
+    <details class="card dsco-step" open id="dsco-e1">
+      <summary>1. Confirmation de la creation et de la reception de la commande dans DSCO</summary>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Have you finalized the order creation on your side?</p>
+        <p class="fr">Avez-vous finalise la creation de la commande de votre cote ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi (si c'est fait)</span>
+        <p class="en">Yes, the order has been successfully created on our side. We are now checking whether it has been properly transmitted and received in DSCO.</p>
+        <p class="fr">Oui, la commande a bien ete creee de notre cote. Nous verifions maintenant si elle a ete correctement transmise et recue dans DSCO.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Can you confirm that the order is visible in DSCO on your side?</p><p class="fr">Pouvez-vous confirmer que la commande est bien visible dans DSCO de votre cote ?</p></li>
+          <li><p class="en">Do you have the same order reference and order details?</p><p class="fr">Avez-vous la meme reference de commande et les memes details ?</p></li>
+          <li><p class="en">Is the order fully received and available for retrieval through the GetOrder API?</p><p class="fr">La commande est-elle entierement recue et disponible pour etre recuperee via l&#x27;API GetOrder ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team (si confirmation)</span>
+        <p class="en">Yes, we can see the order in DSCO. It is available for retrieval.</p>
+        <p class="fr">Oui, nous voyons la commande dans DSCO. Elle est disponible pour recuperation.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Perfect. We can move on to the next step and check the GetOrder process through the IPaaS.</p>
+        <p class="fr">Parfait. Nous pouvons passer a l&#x27;etape suivante et verifier le processus GetOrder via l&#x27;IPaaS.</p>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e2">
+      <summary>2. Recuperation de la commande dans DSCO via GetOrder et integration MAO</summary>
+      <p class="sec-note">Verifier que l&#x27;IPaaS recupere effectivement la commande depuis DSCO et la transmet a MAO.</p>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Have you checked whether the order has been successfully retrieved from DSCO?</p>
+        <p class="fr">Avez-vous verifie si la commande a ete correctement recuperee depuis DSCO ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Yes, we are checking the GetOrder call executed by the IPaaS to make sure the order is correctly retrieved from DSCO and transmitted to MAO.</p>
+        <p class="fr">Oui, nous verifions l&#x27;appel GetOrder execute par l&#x27;IPaaS afin de nous assurer que la commande est correctement recuperee depuis DSCO et transmise a MAO.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Has the GetOrder API call been successfully triggered by the IPaaS?</p><p class="fr">L&#x27;appel API GetOrder a-t-il bien ete declenche par l&#x27;IPaaS ?</p></li>
+          <li><p class="en">Can we confirm that the order has been successfully retrieved from DSCO?</p><p class="fr">Pouvons-nous confirmer que la commande a bien ete recuperee depuis DSCO ?</p></li>
+          <li><p class="en">Has the order been successfully transmitted to MAO?</p><p class="fr">La commande a-t-elle bien ete transmise a MAO ?</p></li>
+          <li><p class="en">Are there any errors or rejected messages in the IPaaS logs?</p><p class="fr">Y a-t-il des erreurs ou des messages rejetes dans les logs de l&#x27;IPaaS ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Phrase particulierement utile</span>
+        <p class="en">Can we check the entire transaction in the IPaaS, from the GetOrder request to the successful delivery of the order into MAO?</p>
+        <p class="fr">Pouvons-nous verifier toute la transaction dans l&#x27;IPaaS, depuis la requete GetOrder jusqu&#x27;a la bonne transmission de la commande dans MAO ?</p>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e3">
+      <summary>3. Controle de la bonne integration de la commande dans MAO</summary>
+      <p class="sec-note">Une commande peut etre techniquement recue dans MAO sans etre correctement integree fonctionnellement : il faut comparer les donnees entre DSCO et MAO.</p>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Have you confirmed that the order has been correctly integrated into MAO?</p>
+        <p class="fr">Avez-vous confirme que la commande a ete correctement integree dans MAO ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">We are currently checking the order details in MAO against the original information available in DSCO to ensure that all data has been correctly mapped and integrated.</p>
+        <p class="fr">Nous sommes actuellement en train de comparer les details de la commande dans MAO avec les informations initiales disponibles dans DSCO afin de nous assurer que toutes les donnees ont ete correctement mappees et integrees.</p>
+      </div>
+      <p class="dlg-title">Controles fonctionnels a effectuer</p>
+      <table class="dsco-table"><thead><tr><th>Donnees a controler</th><th>Verification</th></tr></thead><tbody>
+        <tr><td>Order reference</td><td>Meme reference de commande</td></tr>
+        <tr><td>Customer information</td><td>Informations client conformes</td></tr>
+        <tr><td>Shipping address</td><td>Adresse de livraison identique</td></tr>
+        <tr><td>Items / SKU</td><td>Bons articles</td></tr>
+        <tr><td>Quantities</td><td>Bonnes quantites</td></tr>
+        <tr><td>Unit price</td><td>Prix unitaire conforme</td></tr>
+        <tr><td>Total amount</td><td>Montant total conforme</td></tr>
+        <tr><td>Payment information</td><td>Informations de paiement correctes</td></tr>
+        <tr><td>Shipping method</td><td>Mode de livraison conforme</td></tr>
+        <tr><td>Carrier</td><td>Transporteur correctement renseigne, si applicable</td></tr>
+      </tbody></table>
+      <p class="dlg-title">Le sujet du paiement</p>
+      <div class="dsco-turn">
+        <span class="tag ">Question a poser</span>
+        <p class="en">Can we confirm that the payment information has been correctly integrated into MAO and that the order is eligible for processing?</p>
+        <p class="fr">Pouvons-nous confirmer que les informations de paiement ont ete correctement integrees dans MAO et que la commande est eligible au traitement ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Si le paiement est incorrect</span>
+        <p class="en">We have identified a discrepancy in the payment information between DSCO and MAO. We need to investigate whether this is related to the data mapping or the integration process.</p>
+        <p class="fr">Nous avons identifie une difference dans les informations de paiement entre DSCO et MAO. Nous devons determiner si cela est lie au mapping des donnees ou au processus d&#x27;integration.</p>
+      </div>
+      <p class="dlg-title">Le sujet de l&#x27;allocation du stock</p>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Has the inventory been successfully allocated to the order in MAO?</p><p class="fr">Le stock a-t-il ete correctement alloue a la commande dans MAO ?</p></li>
+          <li><p class="en">Can we confirm that the allocated quantity matches the ordered quantity?</p><p class="fr">Pouvons-nous confirmer que la quantite allouee correspond a la quantite commandee ?</p></li>
+          <li><p class="en">Has the correct carrier and shipping method been assigned to the order?</p><p class="fr">Le bon transporteur et le bon mode de livraison ont-ils ete affectes a la commande ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Phrase de synthese</span>
+        <p class="en">Before moving to the next step, we need to make sure that the order is fully and correctly integrated into MAO, including payment validation, inventory allocation and carrier assignment.</p>
+        <p class="fr">Avant de passer a l&#x27;etape suivante, nous devons nous assurer que la commande est entierement et correctement integree dans MAO, notamment concernant la validation du paiement, l&#x27;allocation du stock et l&#x27;affectation du transporteur.</p>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e4">
+      <summary>4. Confirmation de la commande dans MAO et declenchement de l&#x27;Acknowledgement vers DSCO</summary>
+      <p class="note-box">Attention a la distinction : la confirmation de la commande dans MAO est une etape metier. L&#x27;Acknowledgement est le retour d&#x27;information vers DSCO. Il faut verifier que DSCO recoit effectivement cet Acknowledgement, et pas seulement que MAO l&#x27;a envoye.</p>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Has the order been confirmed in MAO?</p>
+        <p class="fr">La commande a-t-elle ete confirmee dans MAO ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Yes, the order has been successfully integrated and confirmed in MAO. We now need to verify that the Order Acknowledgement flow is properly triggered towards DSCO.</p>
+        <p class="fr">Oui, la commande a ete correctement integree et confirmee dans MAO. Nous devons maintenant verifier que le flux Order Acknowledgement est correctement declenche vers DSCO.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Has the Order Acknowledgement been triggered from MAO?</p><p class="fr">Le flux Order Acknowledgement a-t-il ete declenche depuis MAO ?</p></li>
+          <li><p class="en">Has the acknowledgement message been successfully picked up by the IPaaS?</p><p class="fr">Le message d&#x27;acknowledgement a-t-il bien ete recupere par l&#x27;IPaaS ?</p></li>
+          <li><p class="en">Has the message been successfully transmitted to DSCO?</p><p class="fr">Le message a-t-il ete correctement transmis a DSCO ?</p></li>
+          <li><p class="en">Can we confirm that DSCO has received and processed the acknowledgement?</p><p class="fr">Pouvons-nous confirmer que DSCO a recu et traite l&#x27;acknowledgement ?</p></li>
+          <li><p class="en">Are there any errors in the IPaaS logs during this process?</p><p class="fr">Y a-t-il des erreurs dans les logs de l&#x27;IPaaS pendant ce processus ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Si l&#x27;equipe US demande si tout est bon</span>
+        <p class="en">From our side, we can confirm that the order has been confirmed in MAO. We are now checking the outbound acknowledgement flow to ensure that DSCO receives the correct order status.</p>
+        <p class="fr">De notre cote, nous pouvons confirmer que la commande a ete confirmee dans MAO. Nous verifions maintenant le flux sortant d&#x27;acknowledgement afin de nous assurer que DSCO recoit le bon statut de commande.</p>
+      </div>
+      <p class="dlg-title">Controles a ne surtout pas oublier</p>
+      <table class="dsco-table"><thead><tr><th>Controle</th><th>Resultat attendu</th></tr></thead><tbody>
+        <tr><td>MAO order confirmation</td><td>Commande confirmee</td></tr>
+        <tr><td>Acknowledgement trigger</td><td>Flux declenche</td></tr>
+        <tr><td>IPaaS reception</td><td>Message recupere</td></tr>
+        <tr><td>IPaaS processing</td><td>Aucun rejet ni erreur</td></tr>
+        <tr><td>DSCO transmission</td><td>Message envoye</td></tr>
+        <tr><td>DSCO reception</td><td>Acknowledgement recu</td></tr>
+        <tr><td>Order status</td><td>Statut conforme dans DSCO</td></tr>
+      </tbody></table>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e5">
+      <summary>5. Descente de la commande dans le 3PL US</summary>
+      <p class="sec-note">Valider que la commande confirmee dans MAO suit correctement le processus logistique et arrive dans le systeme du 3PL americain.</p>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Can you confirm that the order has been successfully sent to the US 3PL?</p>
+        <p class="fr">Pouvez-vous confirmer que la commande a bien ete envoyee au 3PL americain ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">We need to verify that the order has been successfully released from MAO and transmitted to the US 3PL through the integration flow.</p>
+        <p class="fr">Nous devons verifier que la commande a bien ete liberee depuis MAO et transmise au 3PL americain via le flux d&#x27;integration.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Has the order been successfully released from MAO?</p><p class="fr">La commande a-t-elle bien ete liberee depuis MAO ?</p></li>
+          <li><p class="en">Has the outbound message been triggered from MAO to the IPaaS?</p><p class="fr">Le message sortant a-t-il ete declenche de MAO vers l&#x27;IPaaS ?</p></li>
+          <li><p class="en">Can we see the order in the IPaaS monitoring logs?</p><p class="fr">Pouvons-nous voir la commande dans les logs de supervision de l&#x27;IPaaS ?</p></li>
+          <li><p class="en">Has the order been successfully transmitted to the US 3PL?</p><p class="fr">La commande a-t-elle bien ete transmise au 3PL americain ?</p></li>
+          <li><p class="en">Can the 3PL confirm that the order has been received and is ready for warehouse processing?</p><p class="fr">Le 3PL peut-il confirmer que la commande a ete recue et qu&#x27;elle est prete a etre traitee par l&#x27;entrepot ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Si la commande est bien presente dans le 3PL</span>
+        <p class="en">Perfect. We have confirmed that the order has successfully reached the US 3PL. We can now move on to the shipment process and the corresponding status updates.</p>
+        <p class="fr">Parfait. Nous avons confirme que la commande est bien arrivee au 3PL americain. Nous pouvons maintenant passer au processus d&#x27;expedition et aux mises a jour de statut correspondantes.</p>
+      </div>
+      <p class="dlg-title">Controles fonctionnels dans le 3PL</p>
+      <ul class="dsco-qlist"><li><p class="fr">Meme reference de commande que dans MAO.</p></li><li><p class="fr">Bons SKU et bonnes quantites.</p></li><li><p class="fr">Adresse de livraison correcte.</p></li><li><p class="fr">Transporteur et service de livraison conformes.</p></li><li><p class="fr">Commande acceptee par le 3PL.</p></li><li><p class="fr">Pas de rejet ou de doublon.</p></li></ul>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e6">
+      <summary>6. Expedition et mise a jour de DSCO</summary>
+      <p class="note-box">Le circuit exact de remontee doit etre confirme avec les equipes, mais le controle fonctionnel reste le meme : le statut d&#x27;expedition doit etre coherent dans les differents systemes.</p>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Has the order been shipped by the warehouse?</p>
+        <p class="fr">La commande a-t-elle ete expediee par l&#x27;entrepot ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Yes, the warehouse has confirmed the shipment. We now need to verify that the shipment information has been correctly received by MAO and that the corresponding update has been transmitted to DSCO.</p>
+        <p class="fr">Oui, l&#x27;entrepot a confirme l&#x27;expedition. Nous devons maintenant verifier que les informations d&#x27;expedition ont bien ete recues par MAO et que la mise a jour correspondante a ete transmise a DSCO.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Has the shipment confirmation been received from the 3PL?</p><p class="fr">La confirmation d&#x27;expedition a-t-elle ete recue du 3PL ?</p></li>
+          <li><p class="en">Has the shipment information been correctly integrated into MAO?</p><p class="fr">Les informations d&#x27;expedition ont-elles ete correctement integrees dans MAO ?</p></li>
+          <li><p class="en">Has the shipment update been triggered towards DSCO?</p><p class="fr">La mise a jour d&#x27;expedition a-t-elle ete declenchee vers DSCO ?</p></li>
+          <li><p class="en">Can we confirm that the tracking number and carrier information are correctly reflected in DSCO?</p><p class="fr">Pouvons-nous confirmer que le numero de suivi et les informations du transporteur sont correctement renseignes dans DSCO ?</p></li>
+          <li><p class="en">Are there any failed messages or integration errors in the IPaaS?</p><p class="fr">Y a-t-il des messages en echec ou des erreurs d&#x27;integration dans l&#x27;IPaaS ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Phrase importante</span>
+        <p class="en">We need to make sure that the shipment status is consistent across the 3PL, MAO and DSCO.</p>
+        <p class="fr">Nous devons nous assurer que le statut d&#x27;expedition est coherent entre le 3PL, MAO et DSCO.</p>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e7">
+      <summary>7. Inventory Synchronization</summary>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Have you checked the inventory synchronization?</p>
+        <p class="fr">Avez-vous verifie la synchronisation des stocks ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Yes, we are checking that inventory updates are correctly triggered, processed by the IPaaS and reflected in DSCO.</p>
+        <p class="fr">Oui, nous verifions que les mises a jour de stock sont correctement declenchees, traitees par l&#x27;IPaaS et repercutees dans DSCO.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Has the inventory synchronization job been successfully triggered?</p><p class="fr">Le job de synchronisation des stocks a-t-il bien ete declenche ?</p></li>
+          <li><p class="en">Are the inventory updates correctly processed by the IPaaS?</p><p class="fr">Les mises a jour de stock sont-elles correctement traitees par l&#x27;IPaaS ?</p></li>
+          <li><p class="en">Can we confirm that the latest inventory quantities are correctly reflected in DSCO?</p><p class="fr">Pouvons-nous confirmer que les dernieres quantites de stock sont correctement repercutees dans DSCO ?</p></li>
+          <li><p class="en">Have you noticed any missing or rejected inventory updates?</p><p class="fr">Avez-vous constate des mises a jour de stock manquantes ou rejetees ?</p></li>
+          <li><p class="en">Is the inventory synchronization running according to the expected schedule?</p><p class="fr">La synchronisation des stocks fonctionne-t-elle selon la frequence prevue ?</p></li>
+        </ul>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Si tout fonctionne</span>
+        <p class="en">The inventory synchronization is working as expected. We have checked that the stock quantities are correctly reflected in DSCO and that no integration errors have been identified.</p>
+        <p class="fr">La synchronisation des stocks fonctionne comme prevu. Nous avons verifie que les quantites sont correctement repercutees dans DSCO et qu&#x27;aucune erreur d&#x27;integration n&#x27;a ete identifiee.</p>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-e8">
+      <summary>8. Alertes et monitoring IPaaS</summary>
+      <p class="sec-note">Dernier controle transversal : s&#x27;assurer que tous les flux fonctionnent et qu&#x27;aucune erreur n&#x27;est passee inapercue.</p>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Have you noticed any errors or alerts during the end-to-end validation?</p>
+        <p class="fr">Avez-vous constate des erreurs ou des alertes pendant la validation de bout en bout ?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">We have reviewed the IPaaS monitoring logs at each stage of the process. Our objective is to ensure that all messages have been successfully processed and that there are no failed or pending transactions.</p>
+        <p class="fr">Nous avons examine les logs de supervision de l&#x27;IPaaS a chaque etape du processus. Notre objectif est de nous assurer que tous les messages ont ete correctement traites et qu&#x27;il n&#x27;y a aucune transaction en echec ou en attente anormale.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag">Toi &#x2014; questions a poser</span>
+        <ul class="dsco-qlist">
+          <li><p class="en">Are there any failed transactions in the IPaaS?</p><p class="fr">Y a-t-il des transactions en echec dans l&#x27;IPaaS ?</p></li>
+          <li><p class="en">Do we have any authentication-related errors?</p><p class="fr">Avons-nous des erreurs liees a l&#x27;authentification ?</p></li>
+          <li><p class="en">Are there any messages stuck in the processing queue?</p><p class="fr">Y a-t-il des messages bloques dans la file de traitement ?</p></li>
+          <li><p class="en">Have all outbound and inbound messages been successfully processed?</p><p class="fr">Tous les messages entrants et sortants ont-ils ete correctement traites ?</p></li>
+          <li><p class="en">Are all monitoring alerts working as expected?</p><p class="fr">Toutes les alertes de supervision fonctionnent-elles comme prevu ?</p></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-anomalies">
+      <summary>Les situations d&#x27;anomalies a preparer pendant le call</summary>
+      <p class="sec-note">Les problemes les plus probables et les reponses a utiliser.</p>
+      <table class="dsco-table"><thead><tr><th>Probleme rencontre</th><th>Reponse en anglais</th></tr></thead><tbody>
+        <tr><td>Commande non visible dans DSCO</td><td>Could you check whether the order was successfully received on your side?</td></tr>
+        <tr><td>GetOrder non declenche</td><td>We need to investigate why the GetOrder call was not triggered by the IPaaS.</td></tr>
+        <tr><td>Commande absente dans MAO</td><td>The order seems to be missing in MAO. Let&#x27;s check the IPaaS transmission logs.</td></tr>
+        <tr><td>Donnees incorrectes dans MAO</td><td>We have identified a data discrepancy between DSCO and MAO.</td></tr>
+        <tr><td>Paiement incorrect</td><td>The payment information does not seem to be correctly integrated.</td></tr>
+        <tr><td>Stock non alloue</td><td>The inventory allocation has not been completed successfully.</td></tr>
+        <tr><td>Acknowledgement absent</td><td>The acknowledgement does not seem to have been triggered from MAO.</td></tr>
+        <tr><td>Commande absente dans le 3PL</td><td>We cannot see the order in the US 3PL. We need to investigate the outbound flow.</td></tr>
+        <tr><td>Statut d&#x27;expedition incorrect</td><td>The shipment status is not correctly reflected in DSCO.</td></tr>
+        <tr><td>Stock non synchronise</td><td>The inventory update has not been correctly reflected in DSCO.</td></tr>
+      </tbody></table>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-exemple">
+      <summary>Exemple d&#x27;un echange complet si une anomalie est detectee</summary>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">We can see the order in DSCO, but it hasn&#x27;t been integrated into MAO yet.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Okay, let&#x27;s investigate the GetOrder process first. Can we check whether the API call was successfully executed by the IPaaS?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">Yes, the GetOrder call was successful.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Okay, so we need to check the next step. Was the order successfully transmitted to MAO? Do we have any error or rejection in the IPaaS logs?</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag tag-us">US Team</span>
+        <p class="en">We found an error during the transmission.</p>
+      </div>
+      <div class="dsco-turn">
+        <span class="tag ">Toi</span>
+        <p class="en">Understood. Could you please share the error details and the corresponding transaction reference? We need to identify the root cause and confirm whether the order can be safely reprocessed.</p>
+      </div>
+      <p class="note-box">Cet echange est particulierement interessant parce que tu avances etape par etape sans tirer de conclusion prematuree.</p>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-script">
+      <summary>Taskforce &#x2014; Functional validation script</summary>
+      <p class="sec-note">Ton deroulement ideal pendant la reunion, dans l&#x27;ordre.</p>
+      <p class="sec-note">A utiliser pendant le partage d&#x27;ecran avec l&#x27;equipe US &#x2014; quasiment comme fil conducteur de la Taskforce.</p>
+      <p class="dlg-title">1. Order creation &amp; DSCO</p>
+      <ul class="dsco-qlist"><li><p class="en">Have you finalized the order creation?</p></li><li><p class="en">Can you confirm that the order is visible in DSCO?</p></li><li><p class="en">Is the order available through the GetOrder API?</p></li></ul>
+      <p class="dlg-title">2. GetOrder &amp; MAO integration</p>
+      <ul class="dsco-qlist"><li><p class="en">Has the GetOrder call been successfully triggered by the IPaaS?</p></li><li><p class="en">Has the order been correctly retrieved and integrated into MAO?</p></li><li><p class="en">Can we confirm that there are no errors in the IPaaS?</p></li></ul>
+      <p class="dlg-title">3. MAO functional checks</p>
+      <ul class="dsco-qlist"><li><p class="en">Are all order details consistent between DSCO and MAO?</p></li><li><p class="en">Is the payment information correct?</p></li><li><p class="en">Has the inventory been successfully allocated?</p></li><li><p class="en">Has the correct carrier and shipping method been assigned?</p></li></ul>
+      <p class="dlg-title">4. Order Acknowledgement</p>
+      <ul class="dsco-qlist"><li><p class="en">Has the order been confirmed in MAO?</p></li><li><p class="en">Has the acknowledgement flow been triggered?</p></li><li><p class="en">Has the acknowledgement been successfully transmitted to DSCO?</p></li><li><p class="en">Can we confirm that the order status is correctly updated in DSCO?</p></li></ul>
+      <p class="dlg-title">5. US 3PL</p>
+      <ul class="dsco-qlist"><li><p class="en">Has the order been released from MAO?</p></li><li><p class="en">Has the order been successfully transmitted to the US 3PL?</p></li><li><p class="en">Can we confirm that the order is visible and accepted by the warehouse?</p></li></ul>
+      <p class="dlg-title">6. Shipment &amp; DSCO update</p>
+      <ul class="dsco-qlist"><li><p class="en">Has the shipment confirmation been received?</p></li><li><p class="en">Has the shipment information been integrated into MAO?</p></li><li><p class="en">Has the shipment update been successfully transmitted to DSCO?</p></li><li><p class="en">Are the tracking details correctly reflected in DSCO?</p></li></ul>
+      <p class="dlg-title">7. Inventory &amp; alerts</p>
+      <ul class="dsco-qlist"><li><p class="en">Has the inventory synchronization been successfully executed?</p></li><li><p class="en">Are the stock quantities correctly reflected in DSCO?</p></li><li><p class="en">Are there any failed transactions or pending messages in the IPaaS?</p></li><li><p class="en">Have all expected alerts been triggered and monitored?</p></li></ul>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-pilotage">
+      <summary>Les phrases pour piloter la reunion comme un veritable coordinateur</summary>
+      <table class="dsco-table"><thead><tr><th>Situation</th><th>Expression anglaise</th></tr></thead><tbody>
+        <tr><td>Passer a l&#x27;etape suivante</td><td>Let&#x27;s move on to the next step.</td></tr>
+        <tr><td>Verifier ensemble</td><td>Let&#x27;s check this together.</td></tr>
+        <tr><td>Demander une confirmation</td><td>Can you confirm this on your side?</td></tr>
+        <tr><td>Attendre le resultat</td><td>Let&#x27;s wait for the processing to be completed.</td></tr>
+        <tr><td>Revenir sur une etape</td><td>Let&#x27;s go back to the previous step.</td></tr>
+        <tr><td>Verifier les donnees</td><td>Let&#x27;s compare the data between both systems.</td></tr>
+        <tr><td>Demander une preuve</td><td>Can you share the transaction details?</td></tr>
+        <tr><td>Identifier un responsable</td><td>Which team should investigate this issue?</td></tr>
+        <tr><td>Continuer malgre une anomalie</td><td>Let&#x27;s continue with the remaining tests while this issue is being investigated.</td></tr>
+        <tr><td>Cloturer un point</td><td>We can consider this step successfully validated.</td></tr>
+      </tbody></table>
+      <div class="dsco-turn">
+        <span class="tag ">Expression particulierement utile (garder le controle du deroulement)</span>
+        <p class="en">Before moving forward, I would like to make sure that the previous step has been fully validated.</p>
+        <p class="fr">Avant d&#x27;avancer, je voudrais m&#x27;assurer que l&#x27;etape precedente a ete entierement validee.</p>
+      </div>
+    </details>
+
+    <details class="card dsco-step" open id="dsco-report">
+      <summary>Le compte rendu final</summary>
+      <p class="sec-note">Ce que tu dois etre capable de communiquer a la fin du call. Modele a copier/completer.</p>
+      <pre class="dsco-report">Functional E2E Validation &#x2014; DSCO Integration
+
+Following the production deployment of the new OAuth 2.0 authentication mechanism, we performed end-to-end functional validation of the DSCO integration.
+
+The following steps were covered:
+1. Order creation and successful reception in DSCO.
+2. Order retrieval through the GetOrder API executed by the IPaaS.
+3. Successful order integration into MAO.
+4. Functional validation of order data, payment information, inventory allocation and carrier assignment.
+5. Order confirmation in MAO and successful triggering of the Order Acknowledgement flow towards DSCO.
+6. Order release and successful transmission to the US 3PL.
+7. Shipment confirmation and status update synchronization between MAO and DSCO.
+8. Inventory synchronization and stock quantity validation.
+9. IPaaS monitoring, error handling and alert verification.
+
+Overall status: [Passed / Passed with issues / Failed]
+
+Outstanding issues: [Details, if applicable]
+
+Next steps: [Actions, owners and deadlines]</pre>
+    </details>
 
   </section>
 
