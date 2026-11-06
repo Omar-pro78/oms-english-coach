@@ -206,6 +206,12 @@
   .dsco-table th { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
   .dsco-report { font-family: var(--mono); font-size: 12px; line-height: 1.7; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; white-space: pre-wrap; overflow-x: auto; }
 
+  .dsco-turn-body { display: flex; align-items: flex-start; gap: 8px; }
+  .dsco-turn-body .row-text { flex: 1; min-width: 0; }
+  .dsco-qlist-audio li { display: flex; align-items: flex-start; gap: 8px; padding-left: 0; border-left: none; }
+  .dsco-qlist-audio li .row-text { flex: 1; min-width: 0; padding-left: 10px; border-left: 2px solid var(--accent-soft); }
+  .dsco-td-audio { display: flex; align-items: center; gap: 8px; }
+
   footer { max-width: 820px; margin: 8px auto 0; color: var(--muted); font-size: 12px; line-height: 1.6; padding: 0 20px 20px; }
 </style>
 
@@ -6119,7 +6125,7 @@
   <section class="tabpanel" data-panel="dscocall" hidden>
     <div class="card">
       <h2 style="font-size:16.5px;margin:0 0 4px;">📞 Simulation du call &#x2014; Migration DSCO OAuth2</h2>
-      <p class="sec-note">Script complet de validation fonctionnelle end-to-end a utiliser pendant le call avec l&#x27;equipe US (passage Bearer &#x2192; OAuth2 client credentials sur Rithum/DSCO). Deplie/replie chaque etape au fil du call, et utilise les puces ci-dessous pour sauter directement a l&#x27;etape en cours.</p>
+      <p class="sec-note">Script complet de validation fonctionnelle end-to-end a utiliser pendant le call avec l&#x27;equipe US (passage Bearer &#x2192; OAuth2 client credentials sur Rithum/DSCO). Deplie/replie chaque etape au fil du call, et utilise les puces ci-dessous pour sauter directement a l&#x27;etape en cours. 🔊 = phrases cles avec audio.</p>
     </div>
 
     <div class="chiprow2">
@@ -6152,10 +6158,10 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Can you confirm that the order is visible in DSCO on your side?</p><p class="fr">Pouvez-vous confirmer que la commande est bien visible dans DSCO de votre cote ?</p></li>
-          <li><p class="en">Do you have the same order reference and order details?</p><p class="fr">Avez-vous la meme reference de commande et les memes details ?</p></li>
-          <li><p class="en">Is the order fully received and available for retrieval through the GetOrder API?</p><p class="fr">La commande est-elle entierement recue et disponible pour etre recuperee via l&#x27;API GetOrder ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e1_01" preload="none" src="audio/dsco_e1_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e1_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can you confirm that the order is visible in DSCO on your side?</p><p class="fr">Pouvez-vous confirmer que la commande est bien visible dans DSCO de votre cote ?</p></div></li>
+          <li><audio id="a_dsco_e1_02" preload="none" src="audio/dsco_e1_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e1_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Do you have the same order reference and order details?</p><p class="fr">Avez-vous la meme reference de commande et les memes details ?</p></div></li>
+          <li><audio id="a_dsco_e1_03" preload="none" src="audio/dsco_e1_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e1_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Is the order fully received and available for retrieval through the GetOrder API?</p><p class="fr">La commande est-elle entierement recue et disponible pour etre recuperee via l&#x27;API GetOrder ?</p></div></li>
         </ul>
       </div>
       <div class="dsco-turn">
@@ -6185,17 +6191,19 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Has the GetOrder API call been successfully triggered by the IPaaS?</p><p class="fr">L&#x27;appel API GetOrder a-t-il bien ete declenche par l&#x27;IPaaS ?</p></li>
-          <li><p class="en">Can we confirm that the order has been successfully retrieved from DSCO?</p><p class="fr">Pouvons-nous confirmer que la commande a bien ete recuperee depuis DSCO ?</p></li>
-          <li><p class="en">Has the order been successfully transmitted to MAO?</p><p class="fr">La commande a-t-elle bien ete transmise a MAO ?</p></li>
-          <li><p class="en">Are there any errors or rejected messages in the IPaaS logs?</p><p class="fr">Y a-t-il des erreurs ou des messages rejetes dans les logs de l&#x27;IPaaS ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e2_01" preload="none" src="audio/dsco_e2_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e2_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the GetOrder API call been successfully triggered by the IPaaS?</p><p class="fr">L&#x27;appel API GetOrder a-t-il bien ete declenche par l&#x27;IPaaS ?</p></div></li>
+          <li><audio id="a_dsco_e2_02" preload="none" src="audio/dsco_e2_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e2_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can we confirm that the order has been successfully retrieved from DSCO?</p><p class="fr">Pouvons-nous confirmer que la commande a bien ete recuperee depuis DSCO ?</p></div></li>
+          <li><audio id="a_dsco_e2_03" preload="none" src="audio/dsco_e2_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e2_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the order been successfully transmitted to MAO?</p><p class="fr">La commande a-t-elle bien ete transmise a MAO ?</p></div></li>
+          <li><audio id="a_dsco_e2_04" preload="none" src="audio/dsco_e2_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e2_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are there any errors or rejected messages in the IPaaS logs?</p><p class="fr">Y a-t-il des erreurs ou des messages rejetes dans les logs de l&#x27;IPaaS ?</p></div></li>
         </ul>
       </div>
-      <div class="dsco-turn">
+      <div class="dsco-turn dsco-turn-audio">
         <span class="tag ">Phrase particulierement utile</span>
-        <p class="en">Can we check the entire transaction in the IPaaS, from the GetOrder request to the successful delivery of the order into MAO?</p>
-        <p class="fr">Pouvons-nous verifier toute la transaction dans l&#x27;IPaaS, depuis la requete GetOrder jusqu&#x27;a la bonne transmission de la commande dans MAO ?</p>
+        <div class="dsco-turn-body"><audio id="a_dsco_e2_util" preload="none" src="audio/dsco_e2_util.mp3"></audio><button class="playbtn" data-target="a_dsco_e2_util" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text">
+          <p class="en">Can we check the entire transaction in the IPaaS, from the GetOrder request to the successful delivery of the order into MAO?</p>
+          <p class="fr">Pouvons-nous verifier toute la transaction dans l&#x27;IPaaS, depuis la requete GetOrder jusqu&#x27;a la bonne transmission de la commande dans MAO ?</p>
+        </div></div>
       </div>
     </details>
 
@@ -6226,10 +6234,12 @@
         <tr><td>Carrier</td><td>Transporteur correctement renseigne, si applicable</td></tr>
       </tbody></table>
       <p class="dlg-title">Le sujet du paiement</p>
-      <div class="dsco-turn">
+      <div class="dsco-turn dsco-turn-audio">
         <span class="tag ">Question a poser</span>
-        <p class="en">Can we confirm that the payment information has been correctly integrated into MAO and that the order is eligible for processing?</p>
-        <p class="fr">Pouvons-nous confirmer que les informations de paiement ont ete correctement integrees dans MAO et que la commande est eligible au traitement ?</p>
+        <div class="dsco-turn-body"><audio id="a_dsco_e3_pay" preload="none" src="audio/dsco_e3_pay.mp3"></audio><button class="playbtn" data-target="a_dsco_e3_pay" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text">
+          <p class="en">Can we confirm that the payment information has been correctly integrated into MAO and that the order is eligible for processing?</p>
+          <p class="fr">Pouvons-nous confirmer que les informations de paiement ont ete correctement integrees dans MAO et que la commande est eligible au traitement ?</p>
+        </div></div>
       </div>
       <div class="dsco-turn">
         <span class="tag ">Si le paiement est incorrect</span>
@@ -6239,16 +6249,18 @@
       <p class="dlg-title">Le sujet de l&#x27;allocation du stock</p>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Has the inventory been successfully allocated to the order in MAO?</p><p class="fr">Le stock a-t-il ete correctement alloue a la commande dans MAO ?</p></li>
-          <li><p class="en">Can we confirm that the allocated quantity matches the ordered quantity?</p><p class="fr">Pouvons-nous confirmer que la quantite allouee correspond a la quantite commandee ?</p></li>
-          <li><p class="en">Has the correct carrier and shipping method been assigned to the order?</p><p class="fr">Le bon transporteur et le bon mode de livraison ont-ils ete affectes a la commande ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e3_01" preload="none" src="audio/dsco_e3_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e3_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the inventory been successfully allocated to the order in MAO?</p><p class="fr">Le stock a-t-il ete correctement alloue a la commande dans MAO ?</p></div></li>
+          <li><audio id="a_dsco_e3_02" preload="none" src="audio/dsco_e3_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e3_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can we confirm that the allocated quantity matches the ordered quantity?</p><p class="fr">Pouvons-nous confirmer que la quantite allouee correspond a la quantite commandee ?</p></div></li>
+          <li><audio id="a_dsco_e3_03" preload="none" src="audio/dsco_e3_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e3_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the correct carrier and shipping method been assigned to the order?</p><p class="fr">Le bon transporteur et le bon mode de livraison ont-ils ete affectes a la commande ?</p></div></li>
         </ul>
       </div>
-      <div class="dsco-turn">
+      <div class="dsco-turn dsco-turn-audio">
         <span class="tag ">Phrase de synthese</span>
-        <p class="en">Before moving to the next step, we need to make sure that the order is fully and correctly integrated into MAO, including payment validation, inventory allocation and carrier assignment.</p>
-        <p class="fr">Avant de passer a l&#x27;etape suivante, nous devons nous assurer que la commande est entierement et correctement integree dans MAO, notamment concernant la validation du paiement, l&#x27;allocation du stock et l&#x27;affectation du transporteur.</p>
+        <div class="dsco-turn-body"><audio id="a_dsco_e3_synth" preload="none" src="audio/dsco_e3_synth.mp3"></audio><button class="playbtn" data-target="a_dsco_e3_synth" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text">
+          <p class="en">Before moving to the next step, we need to make sure that the order is fully and correctly integrated into MAO, including payment validation, inventory allocation and carrier assignment.</p>
+          <p class="fr">Avant de passer a l&#x27;etape suivante, nous devons nous assurer que la commande est entierement et correctement integree dans MAO, notamment concernant la validation du paiement, l&#x27;allocation du stock et l&#x27;affectation du transporteur.</p>
+        </div></div>
       </div>
     </details>
 
@@ -6267,12 +6279,12 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Has the Order Acknowledgement been triggered from MAO?</p><p class="fr">Le flux Order Acknowledgement a-t-il ete declenche depuis MAO ?</p></li>
-          <li><p class="en">Has the acknowledgement message been successfully picked up by the IPaaS?</p><p class="fr">Le message d&#x27;acknowledgement a-t-il bien ete recupere par l&#x27;IPaaS ?</p></li>
-          <li><p class="en">Has the message been successfully transmitted to DSCO?</p><p class="fr">Le message a-t-il ete correctement transmis a DSCO ?</p></li>
-          <li><p class="en">Can we confirm that DSCO has received and processed the acknowledgement?</p><p class="fr">Pouvons-nous confirmer que DSCO a recu et traite l&#x27;acknowledgement ?</p></li>
-          <li><p class="en">Are there any errors in the IPaaS logs during this process?</p><p class="fr">Y a-t-il des erreurs dans les logs de l&#x27;IPaaS pendant ce processus ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e4_01" preload="none" src="audio/dsco_e4_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e4_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the Order Acknowledgement been triggered from MAO?</p><p class="fr">Le flux Order Acknowledgement a-t-il ete declenche depuis MAO ?</p></div></li>
+          <li><audio id="a_dsco_e4_02" preload="none" src="audio/dsco_e4_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e4_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the acknowledgement message been successfully picked up by the IPaaS?</p><p class="fr">Le message d&#x27;acknowledgement a-t-il bien ete recupere par l&#x27;IPaaS ?</p></div></li>
+          <li><audio id="a_dsco_e4_03" preload="none" src="audio/dsco_e4_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e4_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the message been successfully transmitted to DSCO?</p><p class="fr">Le message a-t-il ete correctement transmis a DSCO ?</p></div></li>
+          <li><audio id="a_dsco_e4_04" preload="none" src="audio/dsco_e4_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e4_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can we confirm that DSCO has received and processed the acknowledgement?</p><p class="fr">Pouvons-nous confirmer que DSCO a recu et traite l&#x27;acknowledgement ?</p></div></li>
+          <li><audio id="a_dsco_e4_05" preload="none" src="audio/dsco_e4_05.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e4_05" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are there any errors in the IPaaS logs during this process?</p><p class="fr">Y a-t-il des erreurs dans les logs de l&#x27;IPaaS pendant ce processus ?</p></div></li>
         </ul>
       </div>
       <div class="dsco-turn">
@@ -6307,12 +6319,12 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Has the order been successfully released from MAO?</p><p class="fr">La commande a-t-elle bien ete liberee depuis MAO ?</p></li>
-          <li><p class="en">Has the outbound message been triggered from MAO to the IPaaS?</p><p class="fr">Le message sortant a-t-il ete declenche de MAO vers l&#x27;IPaaS ?</p></li>
-          <li><p class="en">Can we see the order in the IPaaS monitoring logs?</p><p class="fr">Pouvons-nous voir la commande dans les logs de supervision de l&#x27;IPaaS ?</p></li>
-          <li><p class="en">Has the order been successfully transmitted to the US 3PL?</p><p class="fr">La commande a-t-elle bien ete transmise au 3PL americain ?</p></li>
-          <li><p class="en">Can the 3PL confirm that the order has been received and is ready for warehouse processing?</p><p class="fr">Le 3PL peut-il confirmer que la commande a ete recue et qu&#x27;elle est prete a etre traitee par l&#x27;entrepot ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e5_01" preload="none" src="audio/dsco_e5_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e5_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the order been successfully released from MAO?</p><p class="fr">La commande a-t-elle bien ete liberee depuis MAO ?</p></div></li>
+          <li><audio id="a_dsco_e5_02" preload="none" src="audio/dsco_e5_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e5_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the outbound message been triggered from MAO to the IPaaS?</p><p class="fr">Le message sortant a-t-il ete declenche de MAO vers l&#x27;IPaaS ?</p></div></li>
+          <li><audio id="a_dsco_e5_03" preload="none" src="audio/dsco_e5_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e5_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can we see the order in the IPaaS monitoring logs?</p><p class="fr">Pouvons-nous voir la commande dans les logs de supervision de l&#x27;IPaaS ?</p></div></li>
+          <li><audio id="a_dsco_e5_04" preload="none" src="audio/dsco_e5_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e5_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the order been successfully transmitted to the US 3PL?</p><p class="fr">La commande a-t-elle bien ete transmise au 3PL americain ?</p></div></li>
+          <li><audio id="a_dsco_e5_05" preload="none" src="audio/dsco_e5_05.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e5_05" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can the 3PL confirm that the order has been received and is ready for warehouse processing?</p><p class="fr">Le 3PL peut-il confirmer que la commande a ete recue et qu&#x27;elle est prete a etre traitee par l&#x27;entrepot ?</p></div></li>
         </ul>
       </div>
       <div class="dsco-turn">
@@ -6339,18 +6351,20 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Has the shipment confirmation been received from the 3PL?</p><p class="fr">La confirmation d&#x27;expedition a-t-elle ete recue du 3PL ?</p></li>
-          <li><p class="en">Has the shipment information been correctly integrated into MAO?</p><p class="fr">Les informations d&#x27;expedition ont-elles ete correctement integrees dans MAO ?</p></li>
-          <li><p class="en">Has the shipment update been triggered towards DSCO?</p><p class="fr">La mise a jour d&#x27;expedition a-t-elle ete declenchee vers DSCO ?</p></li>
-          <li><p class="en">Can we confirm that the tracking number and carrier information are correctly reflected in DSCO?</p><p class="fr">Pouvons-nous confirmer que le numero de suivi et les informations du transporteur sont correctement renseignes dans DSCO ?</p></li>
-          <li><p class="en">Are there any failed messages or integration errors in the IPaaS?</p><p class="fr">Y a-t-il des messages en echec ou des erreurs d&#x27;integration dans l&#x27;IPaaS ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e6_01" preload="none" src="audio/dsco_e6_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e6_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the shipment confirmation been received from the 3PL?</p><p class="fr">La confirmation d&#x27;expedition a-t-elle ete recue du 3PL ?</p></div></li>
+          <li><audio id="a_dsco_e6_02" preload="none" src="audio/dsco_e6_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e6_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the shipment information been correctly integrated into MAO?</p><p class="fr">Les informations d&#x27;expedition ont-elles ete correctement integrees dans MAO ?</p></div></li>
+          <li><audio id="a_dsco_e6_03" preload="none" src="audio/dsco_e6_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e6_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the shipment update been triggered towards DSCO?</p><p class="fr">La mise a jour d&#x27;expedition a-t-elle ete declenchee vers DSCO ?</p></div></li>
+          <li><audio id="a_dsco_e6_04" preload="none" src="audio/dsco_e6_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e6_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can we confirm that the tracking number and carrier information are correctly reflected in DSCO?</p><p class="fr">Pouvons-nous confirmer que le numero de suivi et les informations du transporteur sont correctement renseignes dans DSCO ?</p></div></li>
+          <li><audio id="a_dsco_e6_05" preload="none" src="audio/dsco_e6_05.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e6_05" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are there any failed messages or integration errors in the IPaaS?</p><p class="fr">Y a-t-il des messages en echec ou des erreurs d&#x27;integration dans l&#x27;IPaaS ?</p></div></li>
         </ul>
       </div>
-      <div class="dsco-turn">
+      <div class="dsco-turn dsco-turn-audio">
         <span class="tag ">Phrase importante</span>
-        <p class="en">We need to make sure that the shipment status is consistent across the 3PL, MAO and DSCO.</p>
-        <p class="fr">Nous devons nous assurer que le statut d&#x27;expedition est coherent entre le 3PL, MAO et DSCO.</p>
+        <div class="dsco-turn-body"><audio id="a_dsco_e6_imp" preload="none" src="audio/dsco_e6_imp.mp3"></audio><button class="playbtn" data-target="a_dsco_e6_imp" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text">
+          <p class="en">We need to make sure that the shipment status is consistent across the 3PL, MAO and DSCO.</p>
+          <p class="fr">Nous devons nous assurer que le statut d&#x27;expedition est coherent entre le 3PL, MAO et DSCO.</p>
+        </div></div>
       </div>
     </details>
 
@@ -6368,12 +6382,12 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Has the inventory synchronization job been successfully triggered?</p><p class="fr">Le job de synchronisation des stocks a-t-il bien ete declenche ?</p></li>
-          <li><p class="en">Are the inventory updates correctly processed by the IPaaS?</p><p class="fr">Les mises a jour de stock sont-elles correctement traitees par l&#x27;IPaaS ?</p></li>
-          <li><p class="en">Can we confirm that the latest inventory quantities are correctly reflected in DSCO?</p><p class="fr">Pouvons-nous confirmer que les dernieres quantites de stock sont correctement repercutees dans DSCO ?</p></li>
-          <li><p class="en">Have you noticed any missing or rejected inventory updates?</p><p class="fr">Avez-vous constate des mises a jour de stock manquantes ou rejetees ?</p></li>
-          <li><p class="en">Is the inventory synchronization running according to the expected schedule?</p><p class="fr">La synchronisation des stocks fonctionne-t-elle selon la frequence prevue ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e7_01" preload="none" src="audio/dsco_e7_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e7_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Has the inventory synchronization job been successfully triggered?</p><p class="fr">Le job de synchronisation des stocks a-t-il bien ete declenche ?</p></div></li>
+          <li><audio id="a_dsco_e7_02" preload="none" src="audio/dsco_e7_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e7_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are the inventory updates correctly processed by the IPaaS?</p><p class="fr">Les mises a jour de stock sont-elles correctement traitees par l&#x27;IPaaS ?</p></div></li>
+          <li><audio id="a_dsco_e7_03" preload="none" src="audio/dsco_e7_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e7_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Can we confirm that the latest inventory quantities are correctly reflected in DSCO?</p><p class="fr">Pouvons-nous confirmer que les dernieres quantites de stock sont correctement repercutees dans DSCO ?</p></div></li>
+          <li><audio id="a_dsco_e7_04" preload="none" src="audio/dsco_e7_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e7_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Have you noticed any missing or rejected inventory updates?</p><p class="fr">Avez-vous constate des mises a jour de stock manquantes ou rejetees ?</p></div></li>
+          <li><audio id="a_dsco_e7_05" preload="none" src="audio/dsco_e7_05.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e7_05" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Is the inventory synchronization running according to the expected schedule?</p><p class="fr">La synchronisation des stocks fonctionne-t-elle selon la frequence prevue ?</p></div></li>
         </ul>
       </div>
       <div class="dsco-turn">
@@ -6398,19 +6412,19 @@
       </div>
       <div class="dsco-turn">
         <span class="tag">Toi &#x2014; questions a poser</span>
-        <ul class="dsco-qlist">
-          <li><p class="en">Are there any failed transactions in the IPaaS?</p><p class="fr">Y a-t-il des transactions en echec dans l&#x27;IPaaS ?</p></li>
-          <li><p class="en">Do we have any authentication-related errors?</p><p class="fr">Avons-nous des erreurs liees a l&#x27;authentification ?</p></li>
-          <li><p class="en">Are there any messages stuck in the processing queue?</p><p class="fr">Y a-t-il des messages bloques dans la file de traitement ?</p></li>
-          <li><p class="en">Have all outbound and inbound messages been successfully processed?</p><p class="fr">Tous les messages entrants et sortants ont-ils ete correctement traites ?</p></li>
-          <li><p class="en">Are all monitoring alerts working as expected?</p><p class="fr">Toutes les alertes de supervision fonctionnent-elles comme prevu ?</p></li>
+        <ul class="dsco-qlist dsco-qlist-audio">
+          <li><audio id="a_dsco_e8_01" preload="none" src="audio/dsco_e8_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e8_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are there any failed transactions in the IPaaS?</p><p class="fr">Y a-t-il des transactions en echec dans l&#x27;IPaaS ?</p></div></li>
+          <li><audio id="a_dsco_e8_02" preload="none" src="audio/dsco_e8_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e8_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Do we have any authentication-related errors?</p><p class="fr">Avons-nous des erreurs liees a l&#x27;authentification ?</p></div></li>
+          <li><audio id="a_dsco_e8_03" preload="none" src="audio/dsco_e8_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e8_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are there any messages stuck in the processing queue?</p><p class="fr">Y a-t-il des messages bloques dans la file de traitement ?</p></div></li>
+          <li><audio id="a_dsco_e8_04" preload="none" src="audio/dsco_e8_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e8_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Have all outbound and inbound messages been successfully processed?</p><p class="fr">Tous les messages entrants et sortants ont-ils ete correctement traites ?</p></div></li>
+          <li><audio id="a_dsco_e8_05" preload="none" src="audio/dsco_e8_05.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_e8_05" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text"><p class="en">Are all monitoring alerts working as expected?</p><p class="fr">Toutes les alertes de supervision fonctionnent-elles comme prevu ?</p></div></li>
         </ul>
       </div>
     </details>
 
     <details class="card dsco-step" open id="dsco-anomalies">
       <summary>Les situations d&#x27;anomalies a preparer pendant le call</summary>
-      <p class="sec-note">Les problemes les plus probables et les reponses a utiliser.</p>
+      <p class="sec-note">Les problemes les plus probables et les reponses a utiliser. (Pas d&#x27;audio ici - ce sont des reponses de secours, pas les phrases cles a repeter.)</p>
       <table class="dsco-table"><thead><tr><th>Probleme rencontre</th><th>Reponse en anglais</th></tr></thead><tbody>
         <tr><td>Commande non visible dans DSCO</td><td>Could you check whether the order was successfully received on your side?</td></tr>
         <tr><td>GetOrder non declenche</td><td>We need to investigate why the GetOrder call was not triggered by the IPaaS.</td></tr>
@@ -6457,7 +6471,7 @@
     <details class="card dsco-step" open id="dsco-script">
       <summary>Taskforce &#x2014; Functional validation script</summary>
       <p class="sec-note">Ton deroulement ideal pendant la reunion, dans l&#x27;ordre.</p>
-      <p class="sec-note">A utiliser pendant le partage d&#x27;ecran avec l&#x27;equipe US &#x2014; quasiment comme fil conducteur de la Taskforce.</p>
+      <p class="sec-note">A utiliser pendant le partage d&#x27;ecran avec l&#x27;equipe US &#x2014; quasiment comme fil conducteur de la Taskforce. (Memes questions que plus haut, deja avec audio dans leurs etapes respectives.)</p>
       <p class="dlg-title">1. Order creation &amp; DSCO</p>
       <ul class="dsco-qlist"><li><p class="en">Have you finalized the order creation?</p></li><li><p class="en">Can you confirm that the order is visible in DSCO?</p></li><li><p class="en">Is the order available through the GetOrder API?</p></li></ul>
       <p class="dlg-title">2. GetOrder &amp; MAO integration</p>
@@ -6477,21 +6491,23 @@
     <details class="card dsco-step" open id="dsco-pilotage">
       <summary>Les phrases pour piloter la reunion comme un veritable coordinateur</summary>
       <table class="dsco-table"><thead><tr><th>Situation</th><th>Expression anglaise</th></tr></thead><tbody>
-        <tr><td>Passer a l&#x27;etape suivante</td><td>Let&#x27;s move on to the next step.</td></tr>
-        <tr><td>Verifier ensemble</td><td>Let&#x27;s check this together.</td></tr>
-        <tr><td>Demander une confirmation</td><td>Can you confirm this on your side?</td></tr>
-        <tr><td>Attendre le resultat</td><td>Let&#x27;s wait for the processing to be completed.</td></tr>
-        <tr><td>Revenir sur une etape</td><td>Let&#x27;s go back to the previous step.</td></tr>
-        <tr><td>Verifier les donnees</td><td>Let&#x27;s compare the data between both systems.</td></tr>
-        <tr><td>Demander une preuve</td><td>Can you share the transaction details?</td></tr>
-        <tr><td>Identifier un responsable</td><td>Which team should investigate this issue?</td></tr>
-        <tr><td>Continuer malgre une anomalie</td><td>Let&#x27;s continue with the remaining tests while this issue is being investigated.</td></tr>
-        <tr><td>Cloturer un point</td><td>We can consider this step successfully validated.</td></tr>
+        <tr><td>Passer a l&#x27;etape suivante</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_01" preload="none" src="audio/dsco_pilot_01.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_01" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Let&#x27;s move on to the next step.</span></td></tr>
+        <tr><td>Verifier ensemble</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_02" preload="none" src="audio/dsco_pilot_02.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_02" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Let&#x27;s check this together.</span></td></tr>
+        <tr><td>Demander une confirmation</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_03" preload="none" src="audio/dsco_pilot_03.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_03" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Can you confirm this on your side?</span></td></tr>
+        <tr><td>Attendre le resultat</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_04" preload="none" src="audio/dsco_pilot_04.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_04" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Let&#x27;s wait for the processing to be completed.</span></td></tr>
+        <tr><td>Revenir sur une etape</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_05" preload="none" src="audio/dsco_pilot_05.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_05" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Let&#x27;s go back to the previous step.</span></td></tr>
+        <tr><td>Verifier les donnees</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_06" preload="none" src="audio/dsco_pilot_06.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_06" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Let&#x27;s compare the data between both systems.</span></td></tr>
+        <tr><td>Demander une preuve</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_07" preload="none" src="audio/dsco_pilot_07.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_07" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Can you share the transaction details?</span></td></tr>
+        <tr><td>Identifier un responsable</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_08" preload="none" src="audio/dsco_pilot_08.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_08" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Which team should investigate this issue?</span></td></tr>
+        <tr><td>Continuer malgre une anomalie</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_09" preload="none" src="audio/dsco_pilot_09.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_09" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>Let&#x27;s continue with the remaining tests while this issue is being investigated.</span></td></tr>
+        <tr><td>Cloturer un point</td><td class="dsco-td-audio"><audio id="a_dsco_pilot_10" preload="none" src="audio/dsco_pilot_10.mp3"></audio><button class="playbtn playbtn-sm" data-target="a_dsco_pilot_10" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><span>We can consider this step successfully validated.</span></td></tr>
       </tbody></table>
-      <div class="dsco-turn">
+      <div class="dsco-turn dsco-turn-audio">
         <span class="tag ">Expression particulierement utile (garder le controle du deroulement)</span>
-        <p class="en">Before moving forward, I would like to make sure that the previous step has been fully validated.</p>
-        <p class="fr">Avant d&#x27;avancer, je voudrais m&#x27;assurer que l&#x27;etape precedente a ete entierement validee.</p>
+        <div class="dsco-turn-body"><audio id="a_dsco_pilot_11" preload="none" src="audio/dsco_pilot_11.mp3"></audio><button class="playbtn" data-target="a_dsco_pilot_11" aria-label="Ecouter la phrase"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button><div class="row-text">
+          <p class="en">Before moving forward, I would like to make sure that the previous step has been fully validated.</p>
+          <p class="fr">Avant d&#x27;avancer, je voudrais m&#x27;assurer que l&#x27;etape precedente a ete entierement validee.</p>
+        </div></div>
       </div>
     </details>
 
