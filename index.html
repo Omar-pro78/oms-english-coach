@@ -271,6 +271,7 @@
     <button class="tabbtn" data-tab="reunions">Réunions</button>
     <button class="tabbtn" data-tab="dscocall">📞 Call DSCO</button>
     <button class="tabbtn" data-tab="itmeetings">🎯 Réunions IT</button>
+    <button class="tabbtn" data-tab="dscoflash">🃏 Flashcards DSCO</button>
     <button class="tabbtn" data-tab="pron">Prononciation</button>
   </nav>
   <p class="sync-status" id="syncStatus">☁️ Progression stockée sur cet appareil uniquement (non connecté).</p>
@@ -7002,6 +7003,62 @@ Next steps: [Actions, owners and deadlines]</pre>
     </div>
   </section>
 
+  <section class="tabpanel" data-panel="dscoflash" hidden>
+    <div class="card">
+      <h2 style="font-size:16.5px;margin:0 0 4px;">🃏 Flashcards — Call DSCO</h2>
+      <p class="sec-note">Les expressions les plus réutilisables de l'onglet Call DSCO (piloter une réunion, signaler une anomalie, investiguer), sous forme de flashcards et de texte à trous. Les détails très spécifiques à DSCO/MAO/GetOrder ne sont pas repris ici — pour ça, consulte directement l'onglet Call DSCO. Zone d'entraînement séparée, non comptée dans ton compteur global de maîtrise.</p>
+    </div>
+
+    <div class="chiprow2">
+      <a class="chip" data-scroll="dscox-phrases">Flashcards</a>
+      <a class="chip" data-scroll="dscox-blanks">Texte à trous</a>
+    </div>
+
+    <div class="card itm-deck" id="dscox-phrases">
+      <div class="sec-head">
+        <h2>Flashcards — phrases clés</h2>
+        <span class="itm-progress" data-dscox-progress="phrases">1/23</span>
+      </div>
+      <p class="sec-note">Le français s'affiche d'abord. Essaie de formuler la phrase en anglais à voix haute, puis clique sur la carte pour révéler.</p>
+      <div class="itm-card itm-card-lg" data-dscox-flip="phrases" tabindex="0" role="button" aria-label="Retourner la carte">
+        <div class="itm-card-face itm-front">
+          <span class="itm-tag" data-dscox-text="phrases-cat"></span>
+          <span class="itm-face-label">Français</span>
+          <p class="itm-main" data-dscox-text="phrases-front"></p>
+        </div>
+        <div class="itm-card-face itm-back" hidden>
+          <span class="itm-tag" data-dscox-text="phrases-cat-b"></span>
+          <span class="itm-face-label">English</span>
+          <p class="itm-main" data-dscox-text="phrases-back"></p>
+        </div>
+      </div>
+      <div class="itm-controls">
+        <button class="session-btn dscox-btn-prev" data-dscox-deck="phrases">← Précédent</button>
+        <button class="session-btn dscox-btn-shuffle" data-dscox-deck="phrases">🔀 Mélanger</button>
+        <button class="session-btn dscox-btn-next" data-dscox-deck="phrases">Suivant →</button>
+      </div>
+    </div>
+
+    <div class="card" id="dscox-blanks">
+      <div class="sec-head">
+        <h2>Texte à trous</h2>
+        <span class="itm-progress" data-dscox-progress="blanks">1/10</span>
+      </div>
+      <p class="sec-note">Complète le mot manquant, puis clique sur "Vérifier".</p>
+      <p class="itm-sentence" id="dscox-blank-sentence"></p>
+      <p class="itm-fr" id="dscox-blank-fr"></p>
+      <div class="itm-answer-row">
+        <input type="text" id="dscox-blank-input" class="itm-input" placeholder="mot manquant" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="session-btn" id="dscox-blank-check">Vérifier</button>
+      </div>
+      <p class="itm-feedback" id="dscox-blank-feedback"></p>
+      <div class="itm-controls">
+        <button class="session-btn" id="dscox-blank-next">Suivant →</button>
+        <span class="itm-score" id="dscox-blank-score">Score : 0/0</span>
+      </div>
+    </div>
+  </section>
+
   <section class="tabpanel" data-panel="pron" hidden>
     <div class="card">
       <div class="sec-head">
@@ -7930,6 +7987,154 @@ Next steps: [Actions, owners and deadlines]</pre>
     if (e.key === 'Enter') { e.preventDefault(); if (!fixesAnswered) checkFix(); else nextFix(); }
   });
   renderFix();
+})();
+</script>
+
+<script>
+(function() {
+  var DSCOX_DATA = {"phrases": [["Let's move on to the next step.", "Passons à l'étape suivante.", "Piloter la réunion"], ["Let's check this together.", "Vérifions cela ensemble.", "Piloter la réunion"], ["Can you confirm this on your side?", "Pouvez-vous confirmer cela de votre côté ?", "Piloter la réunion"], ["Let's wait for the processing to be completed.", "Attendons que le traitement soit terminé.", "Piloter la réunion"], ["Let's go back to the previous step.", "Revenons à l'étape précédente.", "Piloter la réunion"], ["Let's compare the data between both systems.", "Comparons les données entre les deux systèmes.", "Piloter la réunion"], ["Can you share the transaction details?", "Pouvez-vous partager les détails de la transaction ?", "Piloter la réunion"], ["Which team should investigate this issue?", "Quelle équipe doit investiguer ce problème ?", "Piloter la réunion"], ["Let's continue with the remaining tests while this issue is being investigated.", "Continuons les tests restants pendant que ce problème est investigué.", "Piloter la réunion"], ["We can consider this step successfully validated.", "Nous pouvons considérer cette étape comme validée avec succès.", "Piloter la réunion"], ["Before moving forward, I would like to make sure that the previous step has been fully validated.", "Avant d'avancer, je voudrais m'assurer que l'étape précédente a été entièrement validée.", "Piloter la réunion"], ["Could you check whether the order was successfully received on your side?", "Pourriez-vous vérifier si la commande a bien été reçue de votre côté ?", "Signaler une anomalie"], ["We need to investigate why the call was not triggered.", "Nous devons déterminer pourquoi l'appel n'a pas été déclenché.", "Signaler une anomalie"], ["It seems to be missing on our side. Let's check the transmission logs.", "Cela semble absent de notre côté. Vérifions les logs de transmission.", "Signaler une anomalie"], ["We have identified a data discrepancy between the two systems.", "Nous avons identifié un écart de données entre les deux systèmes.", "Signaler une anomalie"], ["The information does not seem to be correctly integrated.", "Les informations ne semblent pas correctement intégrées.", "Signaler une anomalie"], ["This step has not been completed successfully.", "Cette étape ne s'est pas terminée avec succès.", "Signaler une anomalie"], ["It does not seem to have been triggered on the other side.", "Cela ne semble pas avoir été déclenché de l'autre côté.", "Signaler une anomalie"], ["We cannot see it on our end. We need to investigate the outbound flow.", "Nous ne le voyons pas de notre côté. Nous devons examiner le flux sortant.", "Signaler une anomalie"], ["The status is not correctly reflected on the other side.", "Le statut n'est pas correctement répercuté de l'autre côté.", "Signaler une anomalie"], ["This update has not been correctly reflected downstream.", "Cette mise à jour n'a pas été correctement répercutée en aval.", "Signaler une anomalie"], ["We found an error during the transmission.", "Nous avons trouvé une erreur pendant la transmission.", "Investiguer"], ["Understood. Could you please share the error details and the corresponding reference? We need to identify the root cause and confirm whether it can be safely reprocessed.", "Compris. Pourriez-vous partager les détails de l'erreur et la référence correspondante ? Nous devons identifier la cause racine et confirmer si cela peut être retraité en toute sécurité.", "Investiguer"]], "blanks": [["Let's move on to the next ___.", "step", "Passons à l'étape suivante."], ["Let's ___ this together.", "check", "Vérifions cela ensemble."], ["Can you ___ this on your side?", "confirm", "Pouvez-vous confirmer cela de votre côté ?"], ["Let's ___ for the processing to be completed.", "wait", "Attendons que le traitement soit terminé."], ["We can consider this step successfully ___.", "validated", "Nous pouvons considérer cette étape comme validée avec succès."], ["We have identified a data ___ between the two systems.", "discrepancy", "Nous avons identifié un écart de données entre les deux systèmes."], ["The information does not seem to be correctly ___.", "integrated", "Les informations ne semblent pas correctement intégrées."], ["The status is not correctly ___ on the other side.", "reflected", "Le statut n'est pas correctement répercuté de l'autre côté."], ["We found an ___ during the transmission.", "error", "Nous avons trouvé une erreur pendant la transmission."], ["We need to identify the root ___.", "cause", "Nous devons identifier la cause racine."]]};
+
+  function normalize(s) {
+    return String(s || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[.!?,;:]+$/g, '')
+      .replace(/[’‘]/g, "'")
+      .replace(/\s+/g, ' ');
+  }
+
+  function shuffleArr(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+  function makeOrder(n) {
+    var a = [];
+    for (var i = 0; i < n; i++) a.push(i);
+    return a;
+  }
+
+  // ---------- Flashcard deck ----------
+  var deck = { items: DSCOX_DATA.phrases, order: makeOrder(DSCOX_DATA.phrases.length), pos: 0, flipped: false };
+
+  function renderDeck() {
+    var idx = deck.order[deck.pos];
+    var item = deck.items[idx];
+    var progress = document.querySelector('[data-dscox-progress="phrases"]');
+    if (progress) progress.textContent = (deck.pos + 1) + '/' + deck.items.length;
+    setText('phrases-front', item[1]);
+    setText('phrases-back', item[0]);
+    setText('phrases-cat', item[2]);
+    setText('phrases-cat-b', item[2]);
+    setFlipped(false);
+  }
+
+  function setText(key, val) {
+    var el = document.querySelector('[data-dscox-text="' + key + '"]');
+    if (el) el.textContent = val;
+  }
+
+  function setFlipped(flipped) {
+    deck.flipped = flipped;
+    var card = document.querySelector('.itm-card[data-dscox-flip="phrases"]');
+    if (!card) return;
+    var front = card.querySelector('.itm-front');
+    var back = card.querySelector('.itm-back');
+    if (flipped) { front.hidden = true; back.hidden = false; }
+    else { front.hidden = false; back.hidden = true; }
+  }
+
+  var dscoxCard = document.querySelector('.itm-card[data-dscox-flip="phrases"]');
+  if (dscoxCard) {
+    function toggle() { setFlipped(!deck.flipped); }
+    dscoxCard.addEventListener('click', toggle);
+    dscoxCard.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  }
+
+  document.querySelectorAll('.dscox-btn-next').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      deck.pos = (deck.pos + 1) % deck.items.length;
+      renderDeck();
+    });
+  });
+  document.querySelectorAll('.dscox-btn-prev').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      deck.pos = (deck.pos - 1 + deck.items.length) % deck.items.length;
+      renderDeck();
+    });
+  });
+  document.querySelectorAll('.dscox-btn-shuffle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      shuffleArr(deck.order);
+      deck.pos = 0;
+      renderDeck();
+    });
+  });
+
+  renderDeck();
+
+  // ---------- Fill-in-the-blank exercise ----------
+  var blanksOrder = makeOrder(DSCOX_DATA.blanks.length);
+  var blanksPos = 0;
+  var blanksScore = { correct: 0, total: 0 };
+  var blanksAnswered = false;
+
+  function renderBlank() {
+    var item = DSCOX_DATA.blanks[blanksOrder[blanksPos]];
+    document.getElementById('dscox-blank-sentence').textContent = item[0];
+    document.getElementById('dscox-blank-fr').textContent = item[2];
+    var input = document.getElementById('dscox-blank-input');
+    input.value = '';
+    input.disabled = false;
+    var fb = document.getElementById('dscox-blank-feedback');
+    fb.textContent = '';
+    fb.className = 'itm-feedback';
+    blanksAnswered = false;
+    var progress = document.querySelector('[data-dscox-progress="blanks"]');
+    if (progress) progress.textContent = (blanksPos + 1) + '/' + DSCOX_DATA.blanks.length;
+    updateScore();
+  }
+
+  function checkBlank() {
+    if (blanksAnswered) return;
+    var item = DSCOX_DATA.blanks[blanksOrder[blanksPos]];
+    var input = document.getElementById('dscox-blank-input');
+    var fb = document.getElementById('dscox-blank-feedback');
+    var ok = normalize(input.value) === normalize(item[1]);
+    blanksScore.total++;
+    if (ok) {
+      blanksScore.correct++;
+      fb.textContent = '✅ Correct !';
+      fb.className = 'itm-feedback correct';
+    } else {
+      fb.textContent = '❌ Pas tout à fait — réponse attendue : "' + item[1] + '"';
+      fb.className = 'itm-feedback incorrect';
+    }
+    blanksAnswered = true;
+    input.disabled = true;
+    updateScore();
+  }
+
+  function nextBlank() {
+    blanksPos = (blanksPos + 1) % DSCOX_DATA.blanks.length;
+    if (blanksPos === 0) shuffleArr(blanksOrder);
+    renderBlank();
+  }
+
+  function updateScore() {
+    document.getElementById('dscox-blank-score').textContent = 'Score : ' + blanksScore.correct + '/' + blanksScore.total;
+  }
+
+  document.getElementById('dscox-blank-check').addEventListener('click', checkBlank);
+  document.getElementById('dscox-blank-next').addEventListener('click', nextBlank);
+  document.getElementById('dscox-blank-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); if (!blanksAnswered) checkBlank(); else nextBlank(); }
+  });
+  renderBlank();
 })();
 </script>
 
